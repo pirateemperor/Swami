@@ -3,7 +3,9 @@
 //function prototype 
 void create();
 void display();
-void deletion();
+void del_beg();
+void del_end();
+void dup();
 //node declaration
 struct node{
 int info;
@@ -19,7 +21,9 @@ while(1){
 printf("what do you want to do !!!\n");
 printf("\t1.create\n");
 printf("\t2.display\n");
-printf("\t3.delete\n");
+printf("\t3.delete beginning\n");
+printf("\t4.delete end\n");
+printf("\t5.delete duplicate\n");
 printf("enter your choice:\n");
 scanf("%d",&choice);
 //start of switch 1
@@ -34,8 +38,17 @@ display();
 break;
 
 case 3:
-deletion();
+del_beg();
 break;
+
+case 4:
+del_end();
+break;
+
+case 5:
+dup();
+break;
+
 }
 //end of switch 1
 }
@@ -78,8 +91,8 @@ scanf(" %c",&ch);
 void display()
 {struct node *ptr;
 if(start==NULL)
-printf("list is empty:\n");
-
+{printf("list is empty:\n");
+exit(0);}
 ptr=start;
 while(ptr->link!=NULL)
 {printf("\t%d",ptr->info);
@@ -88,49 +101,86 @@ ptr=ptr->link;
 printf("\t%d\n",ptr->info);
 }
 
-void deletion()
-{printf("deletion\n");
-struct node *loc,*tmp,*ptr;
-int item;
-//input to find the item location
-printf("enter the info which you want to delete:\n ");
-scanf("%d",&item);
-if(start==NULL){
-printf("list is empty:\n");
+void del_beg()
+{struct node *tmp,*ptr;
+if(start==NULL)
+{printf("list is empty:\n");
 exit(0);
 }
-else if(start->info==item)
-{start=start->link;
+else if(start->link==NULL)
+{tmp=start;
+start=NULL;
+printf("the deleted node is %d\n",tmp->info);
+free(tmp);
 }
 else
-{loc=NULL;
-ptr=start;
-while(ptr->info!=item)
-{loc=ptr;
-ptr=ptr->link;
-if(ptr->link==NULL)
-break;
+{tmp=start;
+start=start->link;
+printf("the deleted node is %d\n",tmp->info);
+free(tmp);
 }
-if(ptr->link==NULL)
-{printf("item not present in the list:\n");
+}
+void del_end()
+{struct node *ptr,*ptr1,*tmp;
+if(start==NULL)
+{printf("list is empty:\n");
 exit(0);
 }
 
-loc->link=ptr->link;
+if(start->link==NULL)
+{tmp=start;
+start=NULL;
+printf("the deleted node is %d\n",tmp->info);
+free(tmp);
+}
+else
+{ptr1=NULL;
+ptr=start;
+while(ptr->link!=0)
+{ptr1=ptr;
+ptr=ptr->link;
+}
+tmp=ptr;
+ptr1->link=NULL;
+printf("the deleted node is %d\n",tmp->info);
+free(tmp);
+
+}
+
+}
+
+void dup()
+{struct node *tmp,*ptr,*ptrp,*ptr1;
+
+if(start==NULL)
+{printf("list is empty:\n");
+exit(0);
+}
+if(start->link==NULL)
+{printf("only one node is present:\n");
+exit(0);
+}
+ptr=start;
+while(ptr->link!=NULL)
+{ptrp=ptr->link;
+if(ptr->info==ptrp->info)
+{tmp=ptrp;
+ptr->link=ptrp->link;
+free(tmp);
+}
+while(ptrp!=NULL)
+{ptr1=ptrp->link;
+if(ptr->info==ptr1->info)
+{tmp=ptr1;
+ptrp->link=ptr1->link;
+free(tmp);
+}
+}
+
+}
 
 
 }
-printf("new list is \n");
-display();
-}
-
-
-
-
-
-
-
-
 
 
 
