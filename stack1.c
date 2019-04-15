@@ -1,100 +1,119 @@
+#define MAX 10
 #include<stdio.h>
 #include<stdlib.h>
-struct node
-{int info;
-struct node *link;
-}*top=NULL;
-void push();
-void pop();
-void traverse();
+void push(int[],int);
+void show(int[]);
+void pop(int[]);
+int stck[MAX];
+int top=-1;
+
 int main()
-{int choice;
-int item;
+{int ch1,item;
+
 while(1)
 {
-printf("\nMENU\n");
-printf("\t\t1.PUSH\n");
-
-printf("\t\t2.POP\n");
-
-printf("\t\t3.TRAVERSE\n");
-
-printf("\t\t4.EXIT\n");
-
-printf("enter your choice\n");
-
-scanf("%d",&choice);
-
-switch(choice)
+//creating MENU
+printf("MENU:\n");
+printf("\t1.PUSH\n");
+printf("\t2.POP\n");
+printf("\t3.Display\n");
+printf("\t4.EXIT\n");
+printf("enter your choice:\n");
+//input choices
+scanf("%d",&ch1);
+//creating switch
+switch(ch1)
 {
+
+//for PUSH
 case 1:
 printf("PUSH\n");
-push();
+//taking item input
+printf("enter item which you want to push into the stack:\n");
+scanf("%d",&item);
+push(stck,item);
 break;
 
+//for POP
 case 2:
 printf("POP\n");
-pop();
+pop(stck);
 break;
 
+//for display
 case 3:
-printf("TRAVERSE\n");
-traverse();
+printf("Display:\n");
+show(stck);
 break;
 
 
+//for exit
 case 4:
 printf("EXITING\n");
 exit(0);
 
+//for invalid input
 default:
-printf("!!!INVALID INPUT!!!");
+printf("INVALID INPUT!!!\n");
+break;
+
+//end of step 17 switch
 }
+
+//end of step 7 loop
 }
 
-return 0;}
+return 0;
+}
 
+//defining PUSH function 
+void push(int stck[MAX],int item)
+{
+if(top<MAX)
+{top+=1;
+stck[top]=item;
+printf("the new stack is:\n");
+show(stck);
 
-void push()
-{struct node *new;
-int item;
-new=(struct node*)malloc(sizeof(struct node));
+}
+else
+{printf("stack overflow!!!");
+}
 
-if(new==NULL)
-{printf("overflow:\n");
+}
+
+void show(int stck[MAX])
+{
+if(top==-1)
+{printf("list is empty:\n");
 exit(0);
 }
-printf("enter item value:\n");
-scanf("%d",&item);
-new->info=item;
-new->link=top;
-top=new;
+for(int i=0;i<=top;i++)
+{printf("%d\n",stck[i]);
 }
-void pop()
+}
+
+void pop(int stck[MAX])
 {int item;
-struct node *tmp;
-
-if(top==NULL)
-{printf("list is empty:\n");
-exit(0);
+if(top==-1)
+{printf("stack is empty:\n");
 }
-item=top->info;
-tmp=top;
-top=top->link;
-printf("the deleted item is %d\n",item);
-free(tmp);
+else
+{item=stck[top];
+top-=1;
+show(stck);
+printf("deleted item is %d\n",item);
+}
 }
 
-void traverse()
-{struct node *tmp;
-tmp=top;
-if(tmp==NULL)
-{printf("list is empty:\n");
-exit(0);
-}
-while(tmp!=NULL){
-printf("%d",tmp->info);
-tmp=tmp->link;
-}
-}
+
+
+
+
+
+
+
+
+
+
 
